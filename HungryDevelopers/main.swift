@@ -11,8 +11,12 @@ import Foundation
 // MARK: - Spoon class
 
 class Spoon {
-    
+    let index: Int
     let lock = NSLock()
+    
+    init(index: Int) {
+        self.index = index
+    }
     
     func pickUp() {
         lock.lock()
@@ -46,27 +50,27 @@ class Developer {
         print("\(name) started thinking")
         leftSpoon.pickUp()
         lsPickUpCount += 1
-        print("\(name) picked left spoon")
+        print("\(name) picked left spoon index \(leftSpoon.index)")
         rightSpoon.pickUp()
         rsPickUpCount += 1
-        print("\(name) picked right spoon")
+        print("\(name) picked right spoon index \(rightSpoon.index)")
     }
     
     func eat() {
         print("\(name) started eating")
-        usleep(200)
+        sleep(5)
         leftSpoon.putDown()
         lsPutDownCount += 1
-        print("\(name) put left spoon down")
+        print("\(name) put left spoon index \(leftSpoon.index) down")
         rightSpoon.putDown()
         rsPutDownCount += 1
-        print("\(name) put right spoon down")
+        print("\(name) put right spoon index \(rightSpoon.index) down")
     }
     
     func run() {
         var count = 0
         
-        while count < 20 {
+        while count < 1 {
             think()
             eat()
             count += 1
@@ -75,16 +79,39 @@ class Developer {
 }
 
 
-// MARK: - TEST
+// MARK: - TESTING
 
 var developers = [Developer]()
+var spoons = [Spoon]()
+
+
+// MARK: - Create 5 spoons
+
+for i in 1...5 {
+    let spoon = Spoon(index: i)
+    spoons.append(spoon)
+}
+
+
+// MARK: - Create 5 developers and assign them the spoons
+
+for i in 1...spoons.count {
+    if i == 1 {
+        let developer = Developer(name: "Dev\(i)",leftSpoon: spoons[i - 1],
+                                  rightSpoon: spoons[spoons.count - 1])
+        developers.append(developer)
+    } else {
+        let developer = Developer(name: "Dev\(i)",leftSpoon: spoons[i - 2],
+                                  rightSpoon: spoons[i - 1])
+        developers.append(developer)
+    }
+}
+
+
+// MARK: - Run developers in different threads
+
 let startTime = CFAbsoluteTimeGetCurrent()
 let difference = CFAbsoluteTimeGetCurrent() - startTime
-
-for i in 0..<5 {
-    let developer = Developer(name: "Dev\(i)",leftSpoon: Spoon(), rightSpoon: Spoon())
-    developers.append(developer)
-}
 
 DispatchQueue.concurrentPerform(iterations: 5) { index in
     print("Started work of \(index): \(startTime)")
