@@ -13,7 +13,7 @@ This project will help you practice the concepts learned in the Concurreny II - 
 
 Imagine a scenario where you have five hungry developers sitting around a round table. On the table between each pair of developers sits a spoon.
 
-![Table](Table.png)
+![Table](https://github.com/ilqarilyasov/hungry-developers/blob/master/HungryDevelopers/Table.png)
 
 Each developer is hungry, and trying to solve a difficult programming challenge. They alternately think and eat soup. However, a developer can only eat soup when the have both the spoon to their left and the spoon to their right.
 
