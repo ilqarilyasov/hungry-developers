@@ -15,7 +15,7 @@ Imagine a scenario where you have five hungry developers sitting around a round 
 
 ![Table](https://github.com/ilqarilyasov/hungry-developers/blob/master/HungryDevelopers/Table.png)
 
-Each developer is hungry, and trying to solve a difficult programming challenge. They alternately think and eat soup. However, a developer can only eat soup when the have both the spoon to their left and the spoon to their right.
+Each developer is hungry, and trying to solve a difficult programming challenge. They alternately think and eat soup. However, a developer can only eat soup when they have both the spoon to their left and the spoon to their right.
 
 After a developer finishes eating, they must put down both spoon, so that other developers can use them. A developer can take the spoon on their left or their right as soon as they're available, but they cannot start eating before they get both spoons.
 
