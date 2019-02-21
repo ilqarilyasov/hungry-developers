@@ -35,10 +35,6 @@ class Developer {
     let name: String
     let leftSpoon: Spoon
     let rightSpoon: Spoon
-    var lsPickUpCount = 0
-    var rsPickUpCount = 0
-    var lsPutDownCount = 0
-    var rsPutDownCount = 0
     
     init(name: String, leftSpoon: Spoon, rightSpoon: Spoon) {
         self.name = name
@@ -48,32 +44,33 @@ class Developer {
     
     func think() {
         print("\(name) started thinking")
-        leftSpoon.pickUp()
-        lsPickUpCount += 1
-        print("\(name) picked left spoon index \(leftSpoon.index)")
-        rightSpoon.pickUp()
-        rsPickUpCount += 1
-        print("\(name) picked right spoon index \(rightSpoon.index)")
+        if rightSpoon.index > leftSpoon.index {
+            leftSpoon.pickUp()
+            rightSpoon.pickUp()
+        } else {
+            rightSpoon.pickUp()
+            leftSpoon.pickUp()
+        }
     }
     
     func eat() {
         print("\(name) started eating")
-        sleep(5)
+        usleep(2000)
+        print("\(name) finished eating")
         leftSpoon.putDown()
-        lsPutDownCount += 1
-        print("\(name) put left spoon index \(leftSpoon.index) down")
         rightSpoon.putDown()
-        rsPutDownCount += 1
-        print("\(name) put right spoon index \(rightSpoon.index) down")
     }
     
     func run() {
-        var count = 0
         
-        while count < 1 {
+//        while true {
+//            think()
+//            eat()
+//        }
+        
+        for _ in 0...20 {
             think()
             eat()
-            count += 1
         }
     }
 }
@@ -95,14 +92,24 @@ for i in 1...5 {
 
 // MARK: - Create 5 developers and assign them the spoons
 
+/*
+ Dev1 = spoon 1 - spoon 5
+ Dev2 = spoon 1 - spoon 2
+ Dev3 = spoon 2 - spoon 3
+ Dev4 = spoon 3 - spoon 4
+ Dev5 = spoon 4 - spoon 5
+ */
+
 for i in 1...spoons.count {
     if i == 1 {
-        let developer = Developer(name: "Dev\(i)",leftSpoon: spoons[i - 1],
-                                  rightSpoon: spoons[spoons.count - 1])
+        let developer = Developer(name: "Dev\(i)",
+            leftSpoon: spoons[i - 1],
+            rightSpoon: spoons[spoons.count - 1])
         developers.append(developer)
     } else {
-        let developer = Developer(name: "Dev\(i)",leftSpoon: spoons[i - 2],
-                                  rightSpoon: spoons[i - 1])
+        let developer = Developer(name: "Dev\(i)",
+            leftSpoon: spoons[i - 2],
+            rightSpoon: spoons[i - 1])
         developers.append(developer)
     }
 }
@@ -117,8 +124,4 @@ DispatchQueue.concurrentPerform(iterations: 5) { index in
     print("Started work of \(index): \(startTime)")
     developers[index].run()
     print("Finished work of \(index): \(difference)")
-    print("\(developers[index].name) lsPickUpCount: \(developers[index].lsPickUpCount)")
-    print("\(developers[index].name) rsPickUpCount: \(developers[index].rsPickUpCount)")
-    print("\(developers[index].name) lsPutDownCount: \(developers[index].lsPutDownCount)")
-    print("\(developers[index].name) rsPutDownCount: \(developers[index].rsPutDownCount)")
 }
